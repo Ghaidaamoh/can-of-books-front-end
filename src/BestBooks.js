@@ -33,9 +33,7 @@ class MyFavoriteBooks extends React.Component {
       booksArr: responseData.data,
       showBooks: true,
     })
-    console.log('Email : ' + this.state.userEmail);
-    console.log('show state : ' + this.state.showBooks);
-    console.log(this.state.booksArr);
+    
   }
 
 
@@ -58,7 +56,7 @@ class MyFavoriteBooks extends React.Component {
 
                   <Card.Body>
                     <Card.Title>{book.name}</Card.Title>
-                    <Card.Img style={{ boxShadow: '2px 2px 2px #ccc' }} variant="top" src={book.img} alt={book.name} />
+                    <Card.Img  src={book.img} alt={book.name} />
 
                     <Card.Text>
                       {book.description}
