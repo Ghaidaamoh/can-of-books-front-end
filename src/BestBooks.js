@@ -27,10 +27,10 @@ class MyFavoriteBooks extends React.Component {
 
     let url = `${process.env.REACT_APP_PORT}/book?userEmail=${this.state.userEmail}`;
 
-    let responseData = await axios.get(url);
+    let resData = await axios.get(url);
 
     await this.setState({
-      booksArr: responseData.data,
+      booksArr: resData.data,
       showBooks: true,
     })
     
@@ -48,21 +48,21 @@ class MyFavoriteBooks extends React.Component {
         <div className="bookcont">
           {
             this.state.showBooks &&
-            this.state.booksArr.map(book => {
+            this.state.booksArr.map(item => {
 
 
               return (
-                <Card className="book" style={{ width: '18rem', backgroundColor: 'lightgrey', boxShadow: '2px 2px 2px black' }} >
+                <Card >
 
                   <Card.Body>
-                    <Card.Title>{book.name}</Card.Title>
-                    <Card.Img  src={book.img} alt={book.name} />
+                    <Card.Title>{item.name}</Card.Title>
+                    <Card.Img  src={item.img} alt={item.name} />
 
                     <Card.Text>
-                      {book.description}
+                      {item.description}
                     </Card.Text>
                     <Card.Text>
-                      {book.status}
+                      {item.status}
                     </Card.Text>
                   </Card.Body>
                 </Card>
