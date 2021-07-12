@@ -16,7 +16,6 @@ class MyFavoriteBooks extends React.Component {
     }
   }
 
-
   componentDidMount = async () => {
     const { user } = this.props.auth0;
 
@@ -33,10 +32,8 @@ class MyFavoriteBooks extends React.Component {
       booksArr: resData.data,
       showBooks: true,
     })
-    
+
   }
-
-
 
   render() {
     return (
@@ -53,11 +50,9 @@ class MyFavoriteBooks extends React.Component {
 
               return (
                 <Card >
-
                   <Card.Body>
                     <Card.Title>{item.name}</Card.Title>
-                    <Card.Img  src={item.img} alt={item.name} />
-
+                    <Card.Img src={item.img} alt={item.name} />
                     <Card.Text>
                       {item.description}
                     </Card.Text>
