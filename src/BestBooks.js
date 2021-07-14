@@ -56,19 +56,22 @@ class MyFavoriteBooks extends React.Component {
       name: event.target.bookName.value,
       description: event.target.description.value,
       status: event.target.status.value,
-      userEmail: this.state.email,
+      userEmail: this.state.userEmail,
 
     }
+    console.log('aaaaa',newBook);
+
     const addBookUrl = await axios.post(`${server}/addBook`, newBook);
-    this.setState({
+    await this.setState({
       booksArr: addBookUrl.data,
     })
+  
   }
 
   deleteBook = async(idx) => {
     const server = process.env.REACT_APP_PORT;
     const deletPara={
-      email:this.state.email,
+      email:this.state.userEmail,
       index:idx,
     }
     const deletURL=await axios.delete(`${server}/deleteBook`,{params:deletPara});
@@ -130,24 +133,17 @@ class MyFavoriteBooks extends React.Component {
                 <Form.Label>Book status</Form.Label>
                 <Form.Control type="text" placeholder="status" name='status' />
               </Form.Group>
-              <Button variant="warning" type="submit">
-                Submit
-              </Button>
+              <button value="submit">submit</button>
+            
             </Form>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={this.handleClose}>
               Close
             </Button>
-
           </Modal.Footer>
         </Modal>
-
-
         </div>
-
-
-
       </Jumbotron>
     )
   }
