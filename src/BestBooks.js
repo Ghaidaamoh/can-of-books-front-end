@@ -13,7 +13,14 @@ class MyFavoriteBooks extends React.Component {
       booksArr: [],
       showBooks: false,
       userEmail: '',
-      show:false
+      show:false,
+      userData: [],
+      index: 0,
+      NameBook:'',
+      bookDis:'',
+      bookSta:'',
+      showUpdate: false
+      
     }
   }
 
@@ -80,6 +87,38 @@ class MyFavoriteBooks extends React.Component {
     });
   }
 
+  handelUpdateClick = (inx)=> {
+    this.setState({
+      showUpdate: true,
+      index: inx,
+      NameBook: this.state.booksArr[inx].name,
+      bookDis: this.state.booksArr[inx].description,
+      bookSta: this.state.booksArr[inx].status,
+  
+    });
+  }
+  handleUpdateClose = () => {
+    this.setState({
+      showUpdate: false,
+  
+    })
+  }
+  UpdateBook = async (event) => {
+    event.preventDefault();
+    const server = process.env.REACT_APP_PORT;
+    const updateDb = {
+      email: this.state.userEmail,
+      index: this.state.index,
+      name: event.target.NameBook.value,
+      description: event.target.bookDis.value,
+      status: event.target.bookSta.value,
+    }
+    let updateURL = await axios.put(`${server}/updateBook/${this.state.index}`, updateDb);
+    this.setState({
+      booksArr: updateURL.data,
+    });
+  
+  }
   render() {
     return (
       <Jumbotron>
@@ -106,6 +145,7 @@ class MyFavoriteBooks extends React.Component {
                       {item.status}
                     </Card.Text>
                     <Button variant="warning" onClick={()=>this.deleteBook(inx)}>Delete</Button>
+                    <Button variant="warning" onClick={() => this.handelUpdateClick(inx)}>Update</Button>
                   </Card.Body>
                 </Card>
               )
@@ -143,6 +183,39 @@ class MyFavoriteBooks extends React.Component {
             </Button>
           </Modal.Footer>
         </Modal>
+        
+        <Modal show={this.state.showUpdate} onHide={this.handleUpdateClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Update Book</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={this.UpdateBook}>
+            <Form.Group controlId="formBasicEmail2">
+              <Form.Label>Book name</Form.Label>
+              <Form.Control type="text" placeholder="book name" name='NameBook'defaultValue={this.state.NameBook}/>
+
+            </Form.Group>
+
+            <Form.Group controlId="formBasicPassword">
+              <Form.Label>Book description</Form.Label>
+              <Form.Control type="text" placeholder="description" name='bookDis'defaultValue={this.state.bookDis} />
+            </Form.Group>
+            <Form.Group controlId="status">
+              <Form.Label>Book status</Form.Label>
+              <Form.Control type="text" placeholder="status" name='bookSta' defaultValue={this.state.bookSta}/>
+            </Form.Group>
+            <Button variant="warning" type="submit">
+              Submit
+            </Button>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={this.handleUpdateClose}>
+            Close
+          </Button>
+
+        </Modal.Footer>
+      </Modal>
         </div>
       </Jumbotron>
     )
